@@ -1,13 +1,22 @@
-
 import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { Link, useParams, Outlet } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { AiFillBackward } from "react-icons/ai";
+import { ToastContainer, toast } from 'react-toastify';
+import { useEffect, useState, Suspense } from 'react';
+import { Link, useParams, Outlet, useNavigate, useLocation } from 'react-router-dom';
+
 
 const MovieDetails = () => {
   const { movieId } = useParams();
-  console.log(movieId)
+
   const [currentFilm, setCurrentFilm] = useState('');
 
+  const location = useLocation();
+  const navigate = useNavigate();
+  const backClick = location?.state?.from ?? '/';
+  const onGoBack = (() =>navigate(backClick) );
+ 
+  
   useEffect(() => {
     axios
       .get(
@@ -41,14 +50,20 @@ const MovieDetails = () => {
         }
       })
       .catch(error => {
-        console.log(error);
+        toast.error(`${error.message}`);
       });
   }, [movieId]);
+  
 
   const { img, title, genres, overview, score, date } = currentFilm;
 
   return (
     <>
+    <button style={{width:'100px', display:'flex'}} type='button' onClick={onGoBack}>
+    <AiFillBackward style={{marginRight:'5px'}} size={16}></AiFillBackward>
+      Go back
+    </button>
+     
       <div style={{ display: 'flex', padding: '15px' }}>
         <div style={{ marginRight: '10px' }}>
           <img src={img} alt={title} width={300} />
@@ -74,9 +89,23 @@ const MovieDetails = () => {
           <Link to="reviews">Reviews</Link>
         </li>
       </ul>
-      <Outlet />
-      
+      <Suspense>
+        <Outlet />
+      </Suspense>
+      <ToastContainer autoClose={2000} />
     </>
   );
+};
+MovieDetails.propTypes = {
+  currentFilm: PropTypes.arrayOf(
+    PropTypes.shape({
+      img: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      genres: PropTypes.string.isRequired,
+      overview: PropTypes.string.isRequired,
+      score: PropTypes.number.isRequired,
+      date: PropTypes.string.isRequired,
+    })
+  ),
 };
 export default MovieDetails;

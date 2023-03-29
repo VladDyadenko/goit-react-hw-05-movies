@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 
 const Reviews = () => {
@@ -16,7 +18,7 @@ const Reviews = () => {
         setReviews(data.data.results);
       })
       .catch(error => {
-        console.log(error);
+        toast.error(`${error.message}`);
       });
   }, [movieId]);
 
@@ -37,8 +39,17 @@ const Reviews = () => {
       ) : (
         <p>We don't have any reviews for this movie</p>
       )}
+      <ToastContainer autoClose={2000} />
     </div>
   );
 };
-
+Reviews.propTypes = {
+  reviews: PropTypes.arrayOf(
+    PropTypes.shape({
+      author: PropTypes.string,
+      content: PropTypes.string,
+      id: PropTypes.string
+    })
+  )
+};
 export default Reviews;

@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
+import  defalteImg from '../../Uttils/img/defalteImg.jpg';
 
 const Cast = () => {
   const { movieId } = useParams();
@@ -15,33 +18,45 @@ const Cast = () => {
 
       .then(data => setCasts(data.data.cast))
       .catch(error => {
-        console.log(error);
+        toast.error(`${error.message}`);
       });
   }, [movieId]);
 
   return (
-    <ul>
-      {casts.map(cast => {
-        const { credit_id, profile_path, original_name, character } = cast;
+    <>
+      <ul>
+        {casts.map(cast => {
+          const { credit_id, profile_path, original_name, character } = cast;
 
-        return (
-          <li key={credit_id}>
-            <img
-              src={
-                profile_path
-                  ? `https://image.tmdb.org/t/p/w500/${profile_path}`
-                  : 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'
-              }
-              alt={original_name}
-              width={100}
-            />
-            <p>{original_name}</p>
-            <p>{character}</p>
-          </li>
-        );
-      })}
-    </ul>
+          return (
+            <li key={credit_id}>
+              <img
+                src={
+                  profile_path
+                    ? `https://image.tmdb.org/t/p/w500/${profile_path}`
+                    : defalteImg
+                }
+                alt={original_name}
+                width={100}
+              />
+              <p>{original_name}</p>
+              <p>{character}</p>
+            </li>
+          );
+        })}
+      </ul>
+      <ToastContainer autoClose={2000} />
+    </>
   );
 };
-
+Cast.propTypes = {
+  casts: PropTypes.arrayOf(
+    PropTypes.shape({
+      credit_id: PropTypes.string,
+      profile_path: PropTypes.string,
+      original_name: PropTypes.string,
+      character:PropTypes.string
+    })
+  )
+};
 export default Cast;
