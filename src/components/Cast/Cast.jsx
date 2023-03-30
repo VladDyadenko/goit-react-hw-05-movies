@@ -3,11 +3,10 @@ import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
-import  defalteImg from '../../Uttils/img/defalteImg.jpg';
+import defalteImg from '../../Uttils/img/defalteImg.jpg';
 
 const Cast = () => {
   const { movieId } = useParams();
-
   const [casts, setCasts] = useState([]);
 
   useEffect(() => {
@@ -55,8 +54,8 @@ Cast.propTypes = {
       credit_id: PropTypes.string,
       profile_path: PropTypes.string,
       original_name: PropTypes.string,
-      character:PropTypes.string
+      character: PropTypes.string,
     })
-  )
+  ),
 };
 export default Cast;

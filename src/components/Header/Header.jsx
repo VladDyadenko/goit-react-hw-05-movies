@@ -1,14 +1,15 @@
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, NavLink,useLocation  } from 'react-router-dom';
 import { Suspense } from 'react';
 import Loader from 'components/Loader';
 
 
 const Header = () => {
+  const location = useLocation();
   return (
     <div>
       <header>
-        <Link to="/">Home</Link>
-        <Link to="/movies">Movies</Link>
+        <NavLink to="/">Home</NavLink>
+        <NavLink to="/movies" state={{ from: location }}>Movies</NavLink>
       </header>
       <Suspense fallback={<Loader/>}>
         <Outlet />
