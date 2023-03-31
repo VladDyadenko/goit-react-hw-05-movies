@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useSearchParams } from 'react-router-dom';
 import Films from 'components/Films';
 import { BoxMovie, BtnForm } from './Movies.styled';
@@ -20,7 +21,11 @@ const Movies = () => {
           `https://api.themoviedb.org/3/search/movie?api_key=8d99b39cb91a8ab8040b3ee85cb6e931&language=en-US&query=${queryMovie}&page=1&include_adult=false`
         )
 
-        .then(data => setArrFilms(data.data.results))
+        .then(data => {
+          if (data.data.results.length === 0) {
+            toast.warning('No movies found for your search!');
+          } else setArrFilms(data.data.results);
+        })
         .catch(error => {
           toast.error(`${error.message}`);
         });
@@ -50,7 +55,7 @@ const Movies = () => {
         <BtnForm type="submit">Search</BtnForm>
       </form>
       {arrFilms.length > 0 && <Films arrFilms={arrFilms} />}
-      <ToastContainer autoClose={2000} />
+      <ToastContainer autoClose={3000} />
     </BoxMovie>
   );
 };

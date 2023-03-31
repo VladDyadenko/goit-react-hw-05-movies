@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import defalteImg from '../../Uttils/img/defalteImg.jpg';
 import { Box, CastFoto, CastName, CastInfo } from './Cast.styled';
