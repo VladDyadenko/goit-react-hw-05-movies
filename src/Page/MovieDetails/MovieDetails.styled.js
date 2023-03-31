@@ -58,7 +58,6 @@ export const BtnInfo = styled.button`
   width: 140px;
   height: 40px;
   padding: 0 5px;
-  cursor: pointer;
   font-family: 'Roboto Slab', sans-serif;
   font-weight: 400;
   font-size: 14px;

@@ -24,9 +24,7 @@ import {
 
 const MovieDetails = () => {
   const [currentFilm, setCurrentFilm] = useState('');
-
   const { movieId } = useParams();
-
   const location = useLocation();
   const navigate = useNavigate();
   const backClick = location.state.from;
@@ -102,7 +100,12 @@ const MovieDetails = () => {
             <Link
               to="cast"
               state={{ from: backClick }}
-              style={{ color: '#fff', textDecoration: 'none' }}
+              style={{
+                color: '#fff',
+                textDecoration: 'none',
+                padding: '5px 50px',
+                cursor: 'pointer',
+              }}
             >
               Cast
             </Link>
@@ -113,7 +116,12 @@ const MovieDetails = () => {
             <Link
               to="reviews"
               state={{ from: backClick }}
-              style={{ color: '#fff', textDecoration: 'none' }}
+              style={{
+                color: '#fff',
+                textDecoration: 'none',
+                padding: '5px 40px',
+                cursor: 'pointer',
+              }}
             >
               Reviews
             </Link>
