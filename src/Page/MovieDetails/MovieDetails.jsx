@@ -21,13 +21,14 @@ import {
   MovieDescr,
   MovieInfo,
 } from './MovieDetails.styled';
+import NotFaund from 'Page/NotFaund';
 
 const MovieDetails = () => {
   const [currentFilm, setCurrentFilm] = useState('');
   const { movieId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-  const backClick = location.state.from;
+  const backClick = location?.state?.from || '/';
   const onGoBack = () => navigate(location?.state?.from ?? '/');
 
   useEffect(() => {
@@ -70,69 +71,75 @@ const MovieDetails = () => {
   const { img, title, genres, overview, score, date } = currentFilm;
 
   return (
-    <Container>
-      <Btn type="button" onClick={onGoBack}>
-        <AiFillBackward
-          style={{ marginRight: '5px' }}
-          size={16}
-        ></AiFillBackward>
-        Go back
-      </Btn>
+    <>
+      {' '}
+      {currentFilm ? (
+        <Container>
+          <Btn type="button" onClick={onGoBack}>
+            <AiFillBackward
+              style={{ marginRight: '5px' }}
+              size={16}
+            ></AiFillBackward>
+            Go back
+          </Btn>
 
-      <Box>
-        <CardFilm src={img} alt={title} />
-        <div>
-          <TitleMovie>
-            {title} ({date})
-          </TitleMovie>
-          <MovieDescr>User Score {`${score}%`}</MovieDescr>
-
-          <MovieDescr>Overview</MovieDescr>
-          <MovieInfo>{overview}</MovieInfo>
-          <MovieDescr>Genres</MovieDescr>
-          <MovieInfo>{genres}</MovieInfo>
-        </div>
-      </Box>
-      <h2>Additional information</h2>
-      <BoxBtn>
-        <li>
-          <BtnInfo type="button">
-            <Link
-              to="cast"
-              state={{ from: backClick }}
-              style={{
-                color: '#fff',
-                textDecoration: 'none',
-                padding: '5px 50px',
-                cursor: 'pointer',
-              }}
-            >
-              Cast
-            </Link>
-          </BtnInfo>
-        </li>
-        <li>
-          <BtnInfo type="button">
-            <Link
-              to="reviews"
-              state={{ from: backClick }}
-              style={{
-                color: '#fff',
-                textDecoration: 'none',
-                padding: '5px 40px',
-                cursor: 'pointer',
-              }}
-            >
-              Reviews
-            </Link>
-          </BtnInfo>
-        </li>
-      </BoxBtn>
-      <Suspense>
-        <Outlet />
-      </Suspense>
-      <ToastContainer autoClose={2000} />
-    </Container>
+          <Box>
+            <CardFilm src={img} alt={title} />
+            <div>
+              <TitleMovie>
+                {title} ({date})
+              </TitleMovie>
+              <MovieDescr>User Score {`${score}%`}</MovieDescr>
+              <MovieDescr>Overview</MovieDescr>
+              <MovieInfo>{overview}</MovieInfo>
+              <MovieDescr>Genres</MovieDescr>
+              <MovieInfo>{genres}</MovieInfo>
+            </div>
+          </Box>
+          <h2>Additional information</h2>
+          <BoxBtn>
+            <li>
+              <BtnInfo type="button">
+                <Link
+                  to="cast"
+                  state={{ from: backClick }}
+                  style={{
+                    color: '#fff',
+                    textDecoration: 'none',
+                    padding: '5px 50px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Cast
+                </Link>
+              </BtnInfo>
+            </li>
+            <li>
+              <BtnInfo type="button">
+                <Link
+                  to="reviews"
+                  state={{ from: backClick }}
+                  style={{
+                    color: '#fff',
+                    textDecoration: 'none',
+                    padding: '5px 40px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Reviews
+                </Link>
+              </BtnInfo>
+            </li>
+          </BoxBtn>
+          <Suspense>
+            <Outlet />
+          </Suspense>
+          <ToastContainer autoClose={2000} />
+        </Container>
+      ) : (
+        <NotFaund />
+      )}
+    </>
   );
 };
 MovieDetails.propTypes = {
