@@ -3,6 +3,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import { useSearchParams } from 'react-router-dom';
 import Films from 'components/Films';
+import { BoxMovie, BtnForm } from './Movies.styled';
 
 const Movies = () => {
   const [arrFilms, setArrFilms] = useState('');
@@ -26,12 +27,11 @@ const Movies = () => {
   }, [queryMovie]);
 
   return (
-    <>
+    <BoxMovie>
       <form
         onSubmit={e => {
           e.preventDefault();
           setQueryMovie(movieName);
-
         }}
       >
         <label htmlFor="search">
@@ -47,14 +47,11 @@ const Movies = () => {
             }}
           />
         </label>
-
-        <button type="submit">Search</button>
+        <BtnForm type="submit">Search</BtnForm>
       </form>
-
       {arrFilms.length > 0 && <Films arrFilms={arrFilms} />}
-
       <ToastContainer autoClose={2000} />
-    </>
+    </BoxMovie>
   );
 };
 export default Movies;

@@ -1,13 +1,15 @@
-import { Outlet, NavLink,useLocation  } from 'react-router-dom';
+import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import { Suspense } from 'react';
-import styled from "styled-components";
+import styled from 'styled-components';
 import Loader from 'components/Loader';
+import { Container, Navbar } from './Header.styled';
 
 const StyledLink = styled(NavLink)`
-  color: black;
+  color: #ffffff;
   text-decoration: none;
   margin-right: 10px;
-  font-weight:500;
+  font-weight: 500;
+  font-size: 20px;
 
   &.active {
     color: red;
@@ -17,16 +19,17 @@ const StyledLink = styled(NavLink)`
 const Header = () => {
   const location = useLocation();
   return (
-    <div>
-      <header>
+    <Container>
+      <Navbar>
         <StyledLink to="/">Home</StyledLink>
-        <StyledLink to="/movies" state={{ from: location }}>Movies</StyledLink>
-      </header>
-      <Suspense fallback={<Loader/>}>
+        <StyledLink to="/movies" state={{ from: location }}>
+          Movies
+        </StyledLink>
+      </Navbar>
+      <Suspense fallback={<Loader />}>
         <Outlet />
       </Suspense>
-      
-    </div>
+    </Container>
   );
 };
 

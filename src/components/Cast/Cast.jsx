@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 import defalteImg from '../../Uttils/img/defalteImg.jpg';
+import { Box, CastFoto, CastName, CastInfo } from './Cast.styled';
 
 const Cast = () => {
   const { movieId } = useParams();
@@ -23,27 +24,30 @@ const Cast = () => {
 
   return (
     <>
-      <ul>
-        {casts.map(cast => {
-          const { credit_id, profile_path, original_name, character } = cast;
+      {casts.length > 0 ? (
+        <Box>
+          {casts.map(cast => {
+            const { credit_id, profile_path, original_name, character } = cast;
 
-          return (
-            <li key={credit_id}>
-              <img
-                src={
-                  profile_path
-                    ? `https://image.tmdb.org/t/p/w500/${profile_path}`
-                    : defalteImg
-                }
-                alt={original_name}
-                width={100}
-              />
-              <p>{original_name}</p>
-              <p>{character}</p>
-            </li>
-          );
-        })}
-      </ul>
+            return (
+              <li key={credit_id}>
+                <CastFoto
+                  src={
+                    profile_path
+                      ? `https://image.tmdb.org/t/p/w500/${profile_path}`
+                      : defalteImg
+                  }
+                  alt={original_name}
+                />
+                <CastName>{original_name}</CastName>
+                <CastInfo>{character}</CastInfo>
+              </li>
+            );
+          })}
+        </Box>
+      ) : (
+        <p>We don't have any casts for this movie</p>
+      )}
       <ToastContainer autoClose={2000} />
     </>
   );

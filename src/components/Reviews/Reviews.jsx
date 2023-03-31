@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
+import { Box, ContainerRevie, ContantRevie } from './Reviews.styled';
 
 const Reviews = () => {
   const { movieId } = useParams();
@@ -23,24 +24,24 @@ const Reviews = () => {
   }, [movieId]);
 
   return (
-    <div>
+    <Box>
       {reviews.length > 0 ? (
-        <ul>
+        <ContainerRevie>
           {reviews.map(review => {
             const { author, content, id } = review;
             return (
               <li key={id}>
                 <h3>{author}</h3>
-                <p>{content}</p>
+                <ContantRevie>{content}</ContantRevie>
               </li>
             );
           })}
-        </ul>
+        </ContainerRevie>
       ) : (
         <p>We don't have any reviews for this movie</p>
       )}
       <ToastContainer autoClose={2000} />
-    </div>
+    </Box>
   );
 };
 Reviews.propTypes = {
@@ -48,8 +49,8 @@ Reviews.propTypes = {
     PropTypes.shape({
       author: PropTypes.string,
       content: PropTypes.string,
-      id: PropTypes.string
+      id: PropTypes.string,
     })
-  )
+  ),
 };
 export default Reviews;

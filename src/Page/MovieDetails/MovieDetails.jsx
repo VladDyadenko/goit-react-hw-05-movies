@@ -1,8 +1,8 @@
+import { useEffect, useState, Suspense } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { AiFillBackward } from 'react-icons/ai';
 import { ToastContainer, toast } from 'react-toastify';
-import { useEffect, useState, Suspense } from 'react';
 import {
   Link,
   useParams,
@@ -10,14 +10,27 @@ import {
   useNavigate,
   useLocation,
 } from 'react-router-dom';
+import {
+  Btn,
+  Container,
+  Box,
+  CardFilm,
+  TitleMovie,
+  BoxBtn,
+  BtnInfo,
+  MovieDescr,
+  MovieInfo,
+} from './MovieDetails.styled';
 
 const MovieDetails = () => {
-  const { movieId } = useParams();
   const [currentFilm, setCurrentFilm] = useState('');
+
+  const { movieId } = useParams();
+
   const location = useLocation();
   const navigate = useNavigate();
-  const backClick = location?.state?.from ?? '/';
-  const onGoBack = () => navigate(backClick);
+  const backClick = location.state.from;
+  const onGoBack = () => navigate(location?.state?.from ?? '/');
 
   useEffect(() => {
     axios
@@ -59,53 +72,59 @@ const MovieDetails = () => {
   const { img, title, genres, overview, score, date } = currentFilm;
 
   return (
-    <>
-      <button
-        style={{ width: '100px', display: 'flex' }}
-        type="button"
-        onClick={onGoBack}
-      >
+    <Container>
+      <Btn type="button" onClick={onGoBack}>
         <AiFillBackward
           style={{ marginRight: '5px' }}
           size={16}
         ></AiFillBackward>
         Go back
-      </button>
+      </Btn>
 
-      <div style={{ display: 'flex', padding: '15px' }}>
-        <div style={{ marginRight: '10px' }}>
-          <img src={img} alt={title} width={300} />
-        </div>
+      <Box>
+        <CardFilm src={img} alt={title} />
         <div>
-          <h1>
+          <TitleMovie>
             {title} ({date})
-          </h1>
-          <h2>User Score {`${score}%`}</h2>
+          </TitleMovie>
+          <MovieDescr>User Score {`${score}%`}</MovieDescr>
 
-          <h2>Overview</h2>
-          <h3 style={{ fontSize: '15px' }}>{overview}</h3>
-          <h2>Genres</h2>
-          <h3 style={{ fontSize: '20px' }}>{genres}</h3>
+          <MovieDescr>Overview</MovieDescr>
+          <MovieInfo>{overview}</MovieInfo>
+          <MovieDescr>Genres</MovieDescr>
+          <MovieInfo>{genres}</MovieInfo>
         </div>
-      </div>
+      </Box>
       <h2>Additional information</h2>
-      <ul>
+      <BoxBtn>
         <li>
-          <Link to="cast" state={{ from: backClick }}>
-            Cast
-          </Link>
+          <BtnInfo type="button">
+            <Link
+              to="cast"
+              state={{ from: backClick }}
+              style={{ color: '#fff', textDecoration: 'none' }}
+            >
+              Cast
+            </Link>
+          </BtnInfo>
         </li>
         <li>
-          <Link to="reviews" state={{ from: backClick }}>
-            Reviews
-          </Link>
+          <BtnInfo type="button">
+            <Link
+              to="reviews"
+              state={{ from: backClick }}
+              style={{ color: '#fff', textDecoration: 'none' }}
+            >
+              Reviews
+            </Link>
+          </BtnInfo>
         </li>
-      </ul>
+      </BoxBtn>
       <Suspense>
         <Outlet />
       </Suspense>
       <ToastContainer autoClose={2000} />
-    </>
+    </Container>
   );
 };
 MovieDetails.propTypes = {
